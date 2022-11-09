@@ -1,20 +1,30 @@
-import {Image, StyleSheet, Text, View} from 'react-native';
+import {
+  Image,
+  StyleSheet,
+  Text,
+  TouchableWithoutFeedback,
+  View,
+} from 'react-native';
 import React from 'react';
+import {useNavigation} from '@react-navigation/native';
 
 const Product = () => {
+  const {navigate} = useNavigation();
   return (
-    <View style={styles.product}>
-      <Image
-        source={{
-          uri: 'https://randomuser.me/api/portraits/men/75.jpg',
-        }}
-        style={styles.image}
-      />
-      <View style={styles.productInfo}>
-        <Text style={styles.productName}>Product Name</Text>
-        <Text style={styles.productPrice}>Price</Text>
+    <TouchableWithoutFeedback onPress={() => navigate('ProductDetails')}>
+      <View style={styles.product}>
+        <Image
+          source={{
+            uri: 'https://randomuser.me/api/portraits/men/75.jpg',
+          }}
+          style={styles.image}
+        />
+        <View style={styles.productInfo}>
+          <Text style={styles.productName}>Product Name</Text>
+          <Text style={styles.productPrice}>Price</Text>
+        </View>
       </View>
-    </View>
+    </TouchableWithoutFeedback>
   );
 };
 

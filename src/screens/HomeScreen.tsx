@@ -1,22 +1,18 @@
-import {
-  StyleSheet,
-  ScrollView,
-  View,
-  TouchableOpacity,
-  Text,
-} from 'react-native';
-import React from 'react';
+import {StyleSheet, ScrollView, View, Text} from 'react-native';
+import React, {useEffect} from 'react';
 import Product from '../components/Product';
 
 const HomeScreen = () => {
-  const data = [
-    {id: 1, title: 'Apple'},
-    {id: 2, title: 'Samsung'},
-    {id: 3, title: 'Sony'},
-    {id: 4, title: 'Nokia'},
-    {id: 5, title: 'HTC'},
-    {id: 6, title: 'LG'},
-  ];
+  useEffect(() => {
+    fetch('https://upayments-studycase-api.herokuapp.com/api/products', {
+      headers: {
+        Authorization:
+          'Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6ImlkcmlzYXR0YXJAbGl2ZS5jb20iLCJnaXRodWIiOiJodHRwczovL2dpdGh1Yi5jb20vRWx1bmlyIiwiaWF0IjoxNjY4MDAwMTEyLCJleHAiOjE2Njg0MzIxMTJ9.IolNrApta2WqBa0otDkXl9mAo1TFyoWv5A8BD3Odt40',
+      },
+    })
+      .then(data => data.json())
+      .then(console.log);
+  }, []);
 
   return (
     <ScrollView>
