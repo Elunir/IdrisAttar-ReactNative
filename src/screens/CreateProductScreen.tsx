@@ -12,10 +12,22 @@ const CreateProduct = () => {
   );
 
   const createProduct = (details: any) => {
-    fetch('https://upayments-studycase-api.herokuapp.com/api/products', {
-      method: 'POST',
-      body: JSON.stringify(details),
-    }).then(console.log);
+    try {
+      fetch('https://upayments-studycase-api.herokuapp.com/api/products', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+          'Accept':  'application/json',
+          'Authorization':
+            'Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6ImlkcmlzLmF0dGFyQG5lb3NvZnRtYWlsLmNvbSIsImdpdGh1YiI6Imh0dHBzOi8vZ2l0aHViLmNvbS9FbHVuaXIiLCJpYXQiOjE2NjgwMTA2MTEsImV4cCI6MTY2ODQ0MjYxMX0.PtSJFopSu924weF5p3GsbDGclyOYF94iqSf1MWAthZM',
+        },
+        body: JSON.stringify(details),
+      })
+        .then(res => res.json())
+        .then(console.log);
+    } catch (error) {
+      console.log(error);
+    }
   };
   return (
     <View style={styles.container}>
@@ -38,10 +50,10 @@ const CreateProduct = () => {
         textColor={'white'}
         onPress={() =>
           createProduct({
-            productTitle,
+            name: productTitle,
             price,
             description,
-            image,
+            avatar: image,
             category: 'Electronics',
             developerEmail: 'idris.attar@neosoftmail.com',
           })

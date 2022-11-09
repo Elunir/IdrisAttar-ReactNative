@@ -16,18 +16,24 @@ const HomeScreen = () => {
   const {navigate} = useNavigation();
 
   useEffect(() => {
-    fetch('https://upayments-studycase-api.herokuapp.com/api/products', {
-      headers: {
-        Authorization:
-          'Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6ImlkcmlzYXR0YXJAbGl2ZS5jb20iLCJnaXRodWIiOiJodHRwczovL2dpdGh1Yi5jb20vRWx1bmlyIiwiaWF0IjoxNjY4MDAwMTEyLCJleHAiOjE2Njg0MzIxMTJ9.IolNrApta2WqBa0otDkXl9mAo1TFyoWv5A8BD3Odt40',
+    const subscribe = fetch(
+      'https://upayments-studycase-api.herokuapp.com/api/products',
+      {
+        headers: {
+          Authorization:
+            'Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6ImlkcmlzLmF0dGFyQG5lb3NvZnRtYWlsLmNvbSIsImdpdGh1YiI6Imh0dHBzOi8vZ2l0aHViLmNvbS9FbHVuaXIiLCJpYXQiOjE2NjgwMTA2MTEsImV4cCI6MTY2ODQ0MjYxMX0.PtSJFopSu924weF5p3GsbDGclyOYF94iqSf1MWAthZM',
+        },
       },
-    })
+    )
       .then(res => res.json())
       .then(api => {
         if (api.message === 'Success') {
           setProducts(api.products);
         }
       });
+    return () => {
+      subscribe;
+    };
   }, []);
 
   useEffect(() => {
