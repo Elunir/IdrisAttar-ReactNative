@@ -1,24 +1,26 @@
 import {Dimensions, Image, StyleSheet, Text, View} from 'react-native';
 import React from 'react';
 
-const ProductDetails = () => {
+const ProductDetailsScreen = ({route}) => {
+  const {name, price, description, avatar} = route.params.data;
   return (
     <View style={styles.product}>
       <Image
         source={{
-          uri: 'https://randomuser.me/api/portraits/men/75.jpg',
+          uri: avatar,
         }}
         style={styles.image}
       />
       <View style={styles.productInfo}>
-        <Text style={styles.productName}>Product Name</Text>
-        <Text style={styles.productPrice}>Price</Text>
+        <Text style={styles.productName}>{name}</Text>
+        <Text style={styles.productPrice}>${price}</Text>
+        <Text style={styles.productPrice}>{description}</Text>
       </View>
     </View>
   );
 };
 
-export default ProductDetails;
+export default ProductDetailsScreen;
 
 const styles = StyleSheet.create({
   image: {

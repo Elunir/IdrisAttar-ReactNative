@@ -8,20 +8,26 @@ import {
 import React from 'react';
 import {useNavigation} from '@react-navigation/native';
 
-const Product = () => {
+const Product = ({data}: any) => {
   const {navigate} = useNavigation();
   return (
-    <TouchableWithoutFeedback onPress={() => navigate('ProductDetails')}>
+    <TouchableWithoutFeedback
+      key={data.id + 'item'}
+      onPress={() =>
+        navigate('ProductDetails', {
+          data,
+        })
+      }>
       <View style={styles.product}>
         <Image
           source={{
-            uri: 'https://randomuser.me/api/portraits/men/75.jpg',
+            uri: data.avatar,
           }}
           style={styles.image}
         />
         <View style={styles.productInfo}>
-          <Text style={styles.productName}>Product Name</Text>
-          <Text style={styles.productPrice}>Price</Text>
+          <Text style={styles.productName}>{data.name}</Text>
+          <Text style={styles.productPrice}>${data.price}</Text>
         </View>
       </View>
     </TouchableWithoutFeedback>
@@ -44,6 +50,7 @@ const styles = StyleSheet.create({
     borderRadius: 12,
     backgroundColor: 'white',
     marginVertical: 8,
+    marginRight: 10,
     shadowColor: '#000000',
     shadowOffset: {
       width: 0,
@@ -60,7 +67,7 @@ const styles = StyleSheet.create({
     fontWeight: 'bold',
   },
   productPrice: {
-    fontSize: 14,
+    fontSize: 16,
     marginTop: 10,
   },
 });
