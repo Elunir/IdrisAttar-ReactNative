@@ -12,9 +12,10 @@ import {useNavigation} from '@react-navigation/native';
 import Categories from '../components/Categories';
 
 const HomeScreen = () => {
-  const [products, setProducts] = useState();
+  const [products, setProducts] = useState([]);
   const [categories, setCategories] = useState();
   const [filterCategories, setFilterCategories] = useState('Electronics');
+  const [filteredProducts, setFilteredProducts] = useState([]);
 
   const {navigate} = useNavigation();
 
@@ -63,6 +64,15 @@ const HomeScreen = () => {
     console.log(categories);
   }, [categories]);
 
+  useEffect(() => {
+    if (filterCategories) {
+      const items = products.filter(
+        product => product.category === filterCategories,
+      );
+      setFilteredProducts(items);
+    }
+  }, [products, filterCategories]);
+
   return (
     <>
       <View>
@@ -73,14 +83,12 @@ const HomeScreen = () => {
             setFilterCategories={setFilterCategories}
           />
           <FlatList
-            data={products}
+            data={filteredProducts.length ? filteredProducts : products}
             contentContainerStyle={styles.productContainerList}
-            keyExtractor={item => item.id}
+            keyExtractor={item => item._id}
             numColumns={2}
             renderItem={({item}) => {
-              return filterCategories === item.category ? (
-                <Product data={item} />
-              ) : null;
+              return <Product data={item} />;
             }}
           />
         </View>

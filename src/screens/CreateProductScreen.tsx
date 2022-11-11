@@ -3,6 +3,7 @@ import React, {useEffect, useState} from 'react';
 import TextInput from '../components/TextInput';
 import Button from '../components/Button';
 import Categories from '../components/Categories';
+import {useNavigation} from '@react-navigation/native';
 
 const CreateProduct = () => {
   const [productTitle, setProductTitle] = useState('Nintendo Switch');
@@ -13,6 +14,8 @@ const CreateProduct = () => {
   );
   const [categories, setCategories] = useState();
   const [filterCategories, setFilterCategories] = useState();
+
+  const {navigate} = useNavigation();
 
   const createProduct = (details: any) => {
     try {
@@ -27,7 +30,9 @@ const CreateProduct = () => {
         body: JSON.stringify(details),
       })
         .then(res => res.json())
-        .then(console.log);
+        .then(() => {
+          navigate('Home');
+        });
     } catch (error) {
       console.log(error);
     }

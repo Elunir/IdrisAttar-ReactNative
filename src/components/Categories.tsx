@@ -6,6 +6,7 @@ const Categories = ({data, filterCategories, setFilterCategories}: any) => {
     <View style={styles.categories}>
       <FlatList
         data={data}
+        showsHorizontalScrollIndicator={false}
         keyExtractor={item => item.name.toString().concat(item.name)}
         renderItem={({item}) => (
           <TouchableOpacity
@@ -29,7 +30,7 @@ const Categories = ({data, filterCategories, setFilterCategories}: any) => {
                 backgroundColor: filterCategories === '' ? 'gray' : 'white',
               },
             ]}
-            onPress={() => setFilterCategories('')}>
+            onPress={() => setFilterCategories([])}>
             <Text>All</Text>
           </TouchableOpacity>
         }

@@ -24,9 +24,10 @@ const Product = ({data}: any) => {
             uri: data.avatar,
           }}
           style={styles.image}
+          resizeMode={'contain'}
         />
         <View style={styles.productInfo}>
-          <Text style={styles.productName}>{data.name}</Text>
+          <Text style={styles.productName} numberOfLines={1}>{data.name}</Text>
           <Text style={styles.productPrice}>${data.price}</Text>
         </View>
       </View>
