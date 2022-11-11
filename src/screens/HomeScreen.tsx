@@ -9,14 +9,17 @@ import {
 import React, {useEffect, useState} from 'react';
 import Product from '../components/Product';
 import {useNavigation} from '@react-navigation/native';
+import Categories from '../components/Categories';
 
 const HomeScreen = () => {
   const [products, setProducts] = useState();
+  const [categories, setCategories] = useState();
+  const [filterCategories, setFilterCategories] = useState('Electronics');
 
   const {navigate} = useNavigation();
 
   useEffect(() => {
-    const subscribe = fetch(
+    const subscribeProducts = fetch(
       'https://upayments-studycase-api.herokuapp.com/api/products',
       {
         headers: {
@@ -31,8 +34,24 @@ const HomeScreen = () => {
           setProducts(api.products);
         }
       });
+    const subscribeCategories = fetch(
+      'https://upayments-studycase-api.herokuapp.com/api/categories',
+      {
+        headers: {
+          Authorization:
+            'Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6ImlkcmlzLmF0dGFyQG5lb3NvZnRtYWlsLmNvbSIsImdpdGh1YiI6Imh0dHBzOi8vZ2l0aHViLmNvbS9FbHVuaXIiLCJpYXQiOjE2NjgwMTA2MTEsImV4cCI6MTY2ODQ0MjYxMX0.PtSJFopSu924weF5p3GsbDGclyOYF94iqSf1MWAthZM',
+        },
+      },
+    )
+      .then(res => res.json())
+      .then(api => {
+        if (api.message === 'Success') {
+          setCategories(api.categories);
+        }
+      });
     return () => {
-      subscribe;
+      subscribeProducts;
+      subscribeCategories;
     };
   }, []);
 
@@ -40,20 +59,29 @@ const HomeScreen = () => {
     console.log(products);
   }, [products]);
 
+  useEffect(() => {
+    console.log(categories);
+  }, [categories]);
+
   return (
     <>
       <View>
         <View style={styles.productContainer}>
-          {/* <View>
-            <Text>asdasd</Text>
-            <Product />
-          </View> */}
+          <Categories
+            data={categories}
+            filterCategories={filterCategories}
+            setFilterCategories={setFilterCategories}
+          />
           <FlatList
             data={products}
             contentContainerStyle={styles.productContainerList}
             keyExtractor={item => item.id}
             numColumns={2}
-            renderItem={({item}) => <Product data={item} />}
+            renderItem={({item}) => {
+              return filterCategories === item.category ? (
+                <Product data={item} />
+              ) : null;
+            }}
           />
         </View>
       </View>
@@ -75,7 +103,6 @@ const styles = StyleSheet.create({
     justifyContent: 'space-between',
   },
   productContainerList: {
-    flexDirection: 'row',
     flexWrap: 'wrap',
     justifyContent: 'space-between',
     margin: 10,
